@@ -64,7 +64,6 @@ exports.signin = async (req, res) => {
             return res.status(404).json({ errorMessage: 'User does not exist!' });
         }
     } catch (error) {
-        console.log(error);
         res.status(500).json({ errorMessage: 'Internal Server Error.' })
     }
 };

@@ -86,12 +86,16 @@ mongoose.connect(process.env.MONGO_URI, {
         const changeStream = mongoose.connection.collection('notifications').watch();
 
         changeStream.on('change', (change) => {
+            console.log(change)
+
             if (change.operationType === 'insert') {
                 pusher.trigger('notificationChannel', 'newNotification',
                     {
                         'change': change
                     }
                 );
+            } else if (change.operationType === 'update') {
+                console.log("Update seen.");
             } else {
                 console.log("Error triggering Pusher.");
             }

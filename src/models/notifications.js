@@ -6,7 +6,12 @@ const notificationSchema = mongoose.Schema({
     contactNumber: String,
     address: String,
     city: String,
-    timestamp: String
-});
+    timestamp: String,
+    seen: {
+        type: Boolean,
+        default: false
+    }
+
+}, { timestamps: true });
 
 module.exports = mongoose.model('Notifications', notificationSchema);

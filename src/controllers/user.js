@@ -7,8 +7,6 @@ exports.userBranches = async (req, res) => {
 
         if (branches) {
             res.status(200).json({ branches });
-        } else {
-            res.status(404).json({ errorMessage: 'Not Found!' });
         }
     } catch (error) {
         res.status(500).json({ errorMessage: 'Internal Server Error.' })
@@ -28,7 +26,34 @@ exports.addNewNotification = (req, res) => {
 };
 
 exports.getAllNotifications = (req, res) => {
-    Notifications.find((error, data) => {
+    Notifications.find({})
+        .sort({ createdAt: -1 })
+        .exec((error, data) => {
+            if (error) {
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(data);
+            }
+        });
+};
+
+exports.getBranchNotifications = (req, res) => {
+    Notifications.find({ pincode: req.body })
+        .sort({ createdAt: -1 })
+        .exec((error, data) => {
+            if (error) {
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(data);
+            }
+        });
+};
+
+exports.updateNotification = (req, res) => {
+    Notifications.findOneAndUpdate(
+        { _id: req.params.id },
+        { seen: true }
+    ).exec((error, data) => {
         if (error) {
             res.status(500).send(error);
         } else {

@@ -1,1 +1,1 @@
-Alert Management Tool
+Alert Management Tool Server
